@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+word_list = Array.new(12, Array.new)
+   
+open("ALC12000.txt") { |io|
+  while line = io.gets
+    line =~ /^(¥w+)¥s.*Lv.(¥d{1,2})¥s*$/
+    word = $1
+    level = $2.to_i - 1
+
+    p "level%02d : %s" % [level, word]
+    word_list[level] << $1
+  end
+}
+
+word_list.each_with_index { |list, level|
+  level += 1
+  list.sort!
+
+  filename = "lvl%02d.txt" % level
+  open(filename, "w") { |out|
+    list.each do |word|
+      out.puts word
+   end
+  }
+}

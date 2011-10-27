@@ -1,0 +1,78 @@
+;; 垂直スクロール用のスクロールバーを付けない
+(add-to-list 'default-frame-alist '(vertical-scroll-bars . nil))
+
+;; 背景の透過
+;(add-to-list 'default-frame-alist '(alpha . (92 70)))
+
+
+;; タブ文字、全角空白、文末の空白の色付け
+(setq whitespace-style '(spaces tabs space-mark tab-mark))
+(setq whitespace-display-mappings
+      '(
+        ; (space-mark 32 [183] [46]) ; normal space, ・
+        (space-mark 160 [164] [95])
+        (space-mark 2208 [2212] [95])
+        (space-mark 2336 [2340] [95])
+        (space-mark 3616 [3620] [95])
+        (space-mark 3872 [3876] [95])
+        (space-mark ?\x3000 [?\□]) ; 全角スペース
+        ; (newline-mark 10 [182 10])
+        (space-mark 9 [9655 9] [92 9])
+        ))
+(require 'whitespace)
+; (global-whitespace-mode 1) ;常に whitespace-mode だと動作が遅くなる場合がある
+(global-set-key (kbd "C-x w") 'global-whitespace-mode)
+
+;; 行末の空白を表示
+(setq-default show-trailing-whitespace t)
+;; EOBを表示
+(setq-default indicate-empty-lines t)
+(setq-default indicate-buffer-boundaries 'left)
+
+;; マーク領域を色付け
+(setq transient-mark-mode t)
+
+;; color-theme
+;(setq color-theme-load-all-themes nil)
+;(setq color-theme-libraries nil)
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     (color-theme-sunburst)))
+
+;; フォントの設定
+(let* ((fontset-name "myfonts") ; フォントセットの名前
+       (size 14) ; ASCIIフォントのサイズ [9/10/12/14/15/17/19/20/...]
+       (asciifont "Menlo") ; ASCIIフォント
+       (jpfont "Hiragino Maru Gothic ProN") ; 日本語フォント
+       (font (format "%s-%d:weight=normal:slant=normal" asciifont size))
+       (fontspec (font-spec :family asciifont))
+       (jp-fontspec (font-spec :family jpfont))
+       (fsn (create-fontset-from-ascii-font font nil fontset-name)))
+  (set-fontset-font fsn 'japanese-jisx0213.2004-1 jp-fontspec)
+  (set-fontset-font fsn 'japanese-jisx0213-2 jp-fontspec)
+  (set-fontset-font fsn 'katakana-jisx0201 jp-fontspec) ; 半角カナ
+  (set-fontset-font fsn '(#x0080 . #x024F) fontspec) ; 分音符付きラテン
+  (set-fontset-font fsn '(#x0370 . #x03FF) fontspec) ; ギリシャ文字
+  )
+
+;; デフォルトのフレームパラメータでフォントセットを指定
+(add-to-list 'default-frame-alist '(font . "fontset-myfonts"))
+
+;; フォントサイズの比を設定
+(dolist (elt '(("^-apple-hiragino.*" . 1.2)
+               (".*osaka-bold.*" . 1.2)
+               (".*osaka-medium.*" . 1.2)
+               (".*courier-bold-.*-mac-roman" . 1.0)
+               (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+               (".*monaco-bold-.*-mac-roman" . 0.9)))
+  (add-to-list 'face-font-rescale-alist elt))
+
+
+;; デフォルトフェイスにフォントセットを設定
+;; # これは起動時に default-frame-alist に従ったフレームが
+;; # 作成されない現象への対処
+(set-face-font 'default "fontset-myfonts")
+
+(provide 'init-font-color-theme)

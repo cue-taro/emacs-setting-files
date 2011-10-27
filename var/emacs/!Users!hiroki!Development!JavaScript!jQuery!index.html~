@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <script type="text/JavaScript"
+            src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+    <script type="text/javascript">
+      $(function() {
+      $("select").change(function() {
+      $("span").text($(this).val());
+      });
+      });
+    </script>
+  </head>
+  
+  <body>
+    申込者:
+    <select>
+      <option value="お名前">個人</option>
+      <option value="会社名">法人</option>
+    </select>
+    <p><span>お名前</span><input type="text"/>
+  </body>
+</html>

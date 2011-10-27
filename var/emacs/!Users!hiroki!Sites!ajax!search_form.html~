@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Search for Employees by Name</title>
+  <style type="text/css" media="all">@import "style.css";</style>
+</head>
+
+<body>
+  <p>Enter the first letter or two of an employee's last name and click 'GO' to find matching employees.</p>
+
+  <form action="search_results.php" method="get" id="search_form">
+    <p>
+      <input id="last_name" type="text" size="5" maxlength="30" />
+      <input name="go" type="submit" value="GO" />
+    </p>
+  </form>
+</body
+
+</html> 

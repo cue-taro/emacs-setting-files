@@ -1,0 +1,8 @@
+<?php #mysql.inc.php
+$dbc = @mysql_connect('127.0.0.1', 'root', 'chocorin');
+
+if (!$dbc OR !mysql_select_db('ajax')) {
+    echo '<p class="error">The site is currently experiencing technical difficulties. We apologize for any inconvenience.</p>';
+    exit();
+}
+?>

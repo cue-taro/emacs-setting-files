@@ -1,0 +1,15 @@
+(autoload 'js2-mode "js2" nil t)
+
+(require 'mmm-mode)
+(setq mmm-global-mode 'maybe)
+(setq mmm-submode-decoration-level 2)
+(set-face-background 'mmm-default-submode-face "gray15")
+
+(mmm-add-classes
+ '((js-in-html
+    :submode js2-mode
+    :front "<script[^>]*>"
+    :back "</script>")))
+(mmm-add-mode-ext-class nil "\\.s?html?\\(\\.+\\)?$" 'js-in-html)
+
+(provide 'init-mmm)

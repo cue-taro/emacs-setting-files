@@ -1,0 +1,91 @@
+(add-to-list 'load-path "~/.emacs.d/elisp/ruby-mode/")
+;;
+;; Ruby
+;;
+;; インデント幅を2に設定
+(setq ruby-indent-level 2)
+(setq ruby-indent-tabs-mode nil)
+
+;; ruby-mode
+;; C-j:インデントして改行
+;; C-m:改行
+;; C-c C-e:endを挿入
+(autoload 'ruby-mode "ruby-mode"
+  "Mode for editing ruby source files" t)
+(setq auto-mode-alist
+      (append '(
+                ("\\.rb$" . ruby-mode)
+                ("Rakefile" . ruby-mode)
+                ("\\.rake$" . ruby-mode)
+                ("\\.rjs" . ruby-mode)
+                ) auto-mode-alist))
+
+(setq interpreter-mode-alist
+      (append '(("ruby" . ruby-mode)) interpreter-mode-alist))
+
+;; 深いインデントを避ける
+(setq ruby-deep-indent-paren-style nil)
+
+(autoload 'run-ruby "inf-ruby"
+  "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+  "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (inf-ruby-keys)))
+
+
+;; ruby-electric
+;; 　「{}」などの括弧の補完
+;; 　「class」や「def」、「if」などの後の「end」を補完
+(require 'ruby-electric)
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (ruby-electric-mode t)))
+(setq ruby-electric-expand-delimiters-list nil)
+
+;; rubydb
+;; M-x rubydb : デバッガを起動
+;; C-x space : ブレークポイントを設定
+(autoload 'rubydb "rubydb3x"
+  "run rubydb on program file in buffer *gud-file*.
+the directory containging file becomes the initial working directory
+and  source-file directory for your debugger." t)
+
+
+;; magic comment
+;; Ruby1.9から、ファイルの文字コードを明記する必要がある
+(defun ruby-insert-magic-comment-if-needed ()
+  "バッファのcoding-systemをもとに、magic commentをつける。"
+  (when (and (eq major-mode 'ruby-mode)
+             (find-multibyte-characters (point-min) (point-max) 1))
+    (save-excursion
+     (goto-char 1)
+     (when (looking-at "^#!")
+       (forward-line 1))
+     (if (re-search-forward "^#.+coding" (point-at-eol) t)
+         (delete-region (point-at-bol) (point-at-eol))
+       (open-line 1))
+     (let* ((coding-system (symbol-name buffer-file-coding-system))
+            (encoding (cond ((string-match "japanese-iso-8bit\\|euc-j" coding-system)
+                              "euc-jp")
+                             ((string-match "shift.jis\\|sjis\\|cp932" coding-system)
+                              "shift-jis")
+                             ((string-match "utf-8" coding-system)
+                              "utf-8"))))
+       (insert (format "# -*- coding: %s -*-" encoding))))))
+
+(add-hook 'before-save-hook 'ruby-insert-magic-comment-if-needed)
+
+
+
+;; TODO:ruby-blockの読み込みに失敗する。。k(require 'ruby-block)
+;;(ruby-block-mode t)
+;; 何もしない
+;; (setq ruby-block-highlight-toggle 'nothing)
+;; ミニバッファに表示
+;; (setq ruby-block-highlight-toggle 'minibuffer)
+;; オーバレイする
+;; (setq ruby-block-highlight-toggle 'overlay)
+;; ミニバッファに表示し、かつ、オーバレイする
+;;(setq ruby-block-highlight-toggle t)

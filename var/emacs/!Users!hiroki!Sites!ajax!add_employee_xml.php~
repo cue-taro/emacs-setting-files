@@ -1,0 +1,31 @@
+<?php
+header("Content-Type: text/xml");
+echo '<?xml version="1.0" encoding="utf-8" standalone="yes" ?><response>';
+require_once('mysql.inc.php');
+$error = false;
+if (!empty($_POST['first_name'])) {
+    $fn = mysql_real_escape_string($_POST['first_name'], $dbc);
+} else {
+    $error = true;
+    echo '<error>first_name</error>';
+}
+if (!empty($_POST['last_name'])) {
+    $fn = mysql_real_escape_string($_POST['last_name'], $dbc);
+} else {
+    $error = true;
+    echo '<error>last_name</error>';
+}
+if (!empty($_POST['email'])) {
+    $fn = mysql_real_escape_string($_POST['email'], $dbc);
+} else {
+    $error = true;
+    echo '<error>email</error>';
+}
+if (!empty($_POST['first_name'])) {
+    $fn = mysql_real_escape_string($_POST['first_name'], $dbc);
+} else {
+    $error = true;
+    echo '<error>first_name</error>';
+}
+
+

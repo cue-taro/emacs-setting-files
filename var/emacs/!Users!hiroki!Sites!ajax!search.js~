@@ -1,0 +1,19 @@
+window.onload = init;
+
+function init() {
+  var ajax = getXMLHttpRequestObject();
+  if (ajax) {
+    if (document.getElementById('results')) {
+      document.getElementById('search_form').onsubmit = function() {
+        var last_name = document.getElementById('last_name').value;
+        ajax.open('get', 'search_results_xml.php?last_name=' + encodeURIComponent(last_name));
+        
+        ajax.onreadystatechange = function() {
+          handleResponse(ajax);
+        }
+        ajax.send(null);
+        return false;
+      }
+    }
+  }
+}

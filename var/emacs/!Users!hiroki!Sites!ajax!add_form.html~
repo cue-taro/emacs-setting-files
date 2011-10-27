@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+  <title>Add an Employee</title>
+  <style type="text/css" media="all">@import "style.css";</style>
+</head>
+
+<body>
+  <p>Use this form to add an employee (all fields are required) </p>
+  <form action="add_employee.php" method="post" id="emp_form">
+    <p><label class="title" id="first_name_label">First Name<input type="text" id="first_name" name="first_name" /></label></p>
+
+    <p><label class="title" id="last_name_label">Last Name<input type="text" id="last_name" name="last_name" /></label></p>
+
+    <p><label class="title" id="email_label">Email Address<input type="text" id="email" name="email" /></label></p>
+
+    <p>
+      <label class="title" id="department_id_label">Department
+        <select id="department_id" name="department_id">
+          <option value="1">Human Resources</option>
+          <option value="2">Accounting</option>
+          <option value="3">Marketing</option>
+          <option value="4">Redundancy Deparment</option>
+        </select>
+        <label>
+        </p>
+
+    
+  </form>
+</body>
+</html>
